@@ -1,12 +1,15 @@
+import math
+
+
 def genPrimes():
-    # Initial list of prime numbers
-    prime_list = [2, 3]
+    # Initial empty list of prime numbers
+    prime_list = []
     # Variable i for generating new numbers
-    i = 3
+    i = 1
     # Initializing flag for checking weather number was divisble or not
     flag = False
-    # Starting a loop to find prime numbers between 1 and 100
-    while i < 10000:
+    # Starting a loop to find prime numbers between 1 and infinity
+    while i < math.inf:
         new_num = i + 1
         flag = False
         # Iterating through all the numbers in list
@@ -20,13 +23,11 @@ def genPrimes():
         if flag == False:
             # If it was not divisible then add it to Prime_list
             prime_list.append(new_num)
+            # Generator is used to print the list
+            yield new_num
         # Check for another number
         i += 1
-        # print(prime_list)
-    # Generator is used to print the list
     # instance.__next__() is typed in cmd result is given out
-    for items in prime_list:
-        yield items
 
 
 genPrimes()

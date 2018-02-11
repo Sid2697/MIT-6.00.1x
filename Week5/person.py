@@ -157,6 +157,82 @@ class Professor(VgecPerson):
         return self.speak('it is obvious that ' + topic)
 
 
+class Grades(object):
+    '''
+    Defining a class for handling grades
+    '''
+
+    def __init__(self):
+        '''
+        Create empty grade book
+        '''
+        self.students = []  # List of student object
+        self.grades = {}  # maps idNUm -> list of grades
+        self.isSorted = True  # true if self.students is sorted
+
+    def addStudent(self, student):
+        '''
+        Assumes: Student is of type Student
+        Add student to the grade book
+        '''
+        if student in self.students:
+            raise ValueError('Duplicate student')
+        self.students.append(student)
+        self.grades[student.getIdNum()] = []
+        self.isSorted = False
+
+    def getStudent(self):
+        '''
+        Returns list of students
+        '''
+        return self.students
+
+    def addGrade(self, student, grade):
+        '''
+        Assumes: Grade is a float
+        Add grade to the list of grades for student
+        '''
+        try:
+            self.grades[student.getIdnum()].append(grade)
+        except KeyError:
+            raise ValueError('Student not in grade book')
+
+    def getGrades(self, student):
+        '''
+        Return a list of grades for student
+        '''
+        try:
+            return self.grade[student.getIdnum()][:]  # Return a copy of grades
+        except KeyError:
+            raise ValueError('Student not in grade book')
+
+    def allStudents(self):
+        '''
+        Return a list of students in the grade book
+        '''
+        if not self.isSorted:
+            self.students.sort()
+            self.isSorted = True
+        return self.Students[:]  # Returns a copy of students
+
+    def gradeReport(self, course):
+        '''
+        Assumes: course is of type grades
+        '''
+        for s in course.allStudents():
+            tot = 0.0
+            numGrades = 0
+            for g in course.getGrades(s):
+                tot += g
+                numGrades += 1
+            try:
+                average = tot / numGrades
+                report.append(str(s) + '\'s mean grade is' + str(average))
+            except ZeroDivisionError:
+                report.append(str(s) + 'has no grades')
+        return '\n'.join(report)
+
+
 # a = VgecPerson('Siddhant Bansal')
 # b = Person('Seema Bansal')
 # c = Person('Astha Bansal')
@@ -196,5 +272,24 @@ class Professor(VgecPerson):
 # print(s1.speak('Where is the Quiz?'))
 # print(s2.speak('I have no idea!'))
 
-# print(isStudent(s5))
-# print(isStudent(b))
+
+# ug1 = UG('Siddhant Bansal', 2018)
+# ug2 = UG('Amitabh Bacchan', 1997)
+# ug3 = UG('Tarry Singh', 2010)
+# ug4 = UG('Neil Armstrong', 1990)
+# g1 = Grad('Bill Gates')
+# g2 = Grad('Steve Jobs')
+
+# six00 = Grades()
+# six00.addStudent(g1)
+# six00.addStudent(ug2)
+# six00.addStudent(ug1)
+# six00.addStudent(g2)
+# six00.addStudent(ug4)
+# six00.addStudent(ug3)
+
+# print(Grades.gradeReport(six00))
+# print(six00.gradeReport())
+# a = six00.sort()
+# for s in six00.students:
+#     print(s)

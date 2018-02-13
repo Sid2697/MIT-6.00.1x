@@ -1,3 +1,4 @@
+
 class CiphertextMessage(Message):
     def __init__(self, text):
         '''
@@ -30,20 +31,29 @@ class CiphertextMessage(Message):
         '''
         # pass  # delete this line and replace with your code here
         # valid_words = load_words(WORDLIST_FILENAME)
-
+        # Getting puncuation characters
+        punch = string.punctuation
         # Making a list of input text
         self.message_text = [word for word in self.message_text.split()]
         # Making a copy of above list
         message_text_copy = self.message_text[:]
         length = len(self.message_text)
+        # If the last letter contains '.' then it is not a valid word, so to escape puntation this block is being used
+        for things in self.message_text[length - 1]:
+            if things in punch:
+                sid = 2
+                break
+            else:
+                sid = 1
         # Taking one letter from the list to get the value by which the entire text is shifted. What I thought here was that I should first calculate shift by using only one word and then apply that shift to whole paragraph
-        self.message_text = self.message_text[length - 1][:]
+        self.message_text = self.message_text[length - sid][:]
         # Loop for finding shift
         for i in range(26):
             a = self.apply_shift(i)
             if a in self.valid_words:
                 # Num is the shift value
-                num = i
+                number = i
+
         # As the self.message_text retined only one word and lost others, I equated self.message_text to it's copy made earlier
         self.message_text = message_text_copy
         # List in which answers will be saved
@@ -53,7 +63,7 @@ class CiphertextMessage(Message):
             # giving one word at a time
             self.message_text = self.message_text[i]
             # getting actual word
-            ans = self.apply_shift(num)
+            ans = self.apply_shift(number)
             # adding the word to list
             story.append(ans)
             # If this step is not done then the answer will have no spaces at all
@@ -63,4 +73,4 @@ class CiphertextMessage(Message):
         # We don't need space in the end of the list so this code deletes that space
         del story[-1]
         # Returning joint list of answer
-        return (num, ''.join(story))
+        return (number, ''.join(story))
